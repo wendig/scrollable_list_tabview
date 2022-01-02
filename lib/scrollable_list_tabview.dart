@@ -10,7 +10,7 @@ export 'model/scrollable_list_tab.dart';
 
 const Duration _kScrollDuration = const Duration(milliseconds: 150);
 const EdgeInsetsGeometry _kTabMargin =
-    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0);
+const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0);
 
 const SizedBox _kSizedBoxW8 = const SizedBox(width: 8.0);
 
@@ -18,12 +18,12 @@ class ScrollableListTabView extends StatefulWidget {
   /// Create a new [ScrollableListTabView]
   const ScrollableListTabView(
       {Key key,
-      this.tabs,
-      this.tabHeight = kToolbarHeight,
-      this.tabAnimationDuration = _kScrollDuration,
-      this.bodyAnimationDuration = _kScrollDuration,
-      this.tabAnimationCurve = Curves.decelerate,
-      this.bodyAnimationCurve = Curves.decelerate})
+        this.tabs,
+        this.tabHeight = kToolbarHeight,
+        this.tabAnimationDuration = _kScrollDuration,
+        this.bodyAnimationDuration = _kScrollDuration,
+        this.tabAnimationCurve = Curves.decelerate,
+        this.bodyAnimationCurve = Curves.decelerate})
       : assert(tabAnimationDuration != null, bodyAnimationDuration != null),
         assert(tabAnimationCurve != null, bodyAnimationCurve != null),
         assert(tabHeight != null),
@@ -53,17 +53,17 @@ class ScrollableListTabView extends StatefulWidget {
 }
 
 class _ScrollableListTabViewState extends State<ScrollableListTabView> {
-  final ValueNotifier<int> _index = ValueNotifier<int>(0);
+  ValueNotifier<int> _index;
 
   final ItemScrollController _bodyScrollController = ItemScrollController();
-  final ItemPositionsListener _bodyPositionsListener =
-      ItemPositionsListener.create();
+  final ItemPositionsListener _bodyPositionsListener = ItemPositionsListener.create();
   final ItemScrollController _tabScrollController = ItemScrollController();
 
   @override
   void initState() {
     super.initState();
     _bodyPositionsListener.itemPositions.addListener(_onInnerViewScrolled);
+    _index = ValueNotifier<int>(widget.tabs.length - 1);
   }
 
   @override
@@ -77,6 +77,7 @@ class _ScrollableListTabViewState extends State<ScrollableListTabView> {
             itemCount: widget.tabs.length,
             scrollDirection: Axis.horizontal,
             itemScrollController: _tabScrollController,
+            reverse: true,
             padding: EdgeInsets.symmetric(vertical: 2.5),
             itemBuilder: (context, index) {
               var tab = widget.tabs[index].tab;
